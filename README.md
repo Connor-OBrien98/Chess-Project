@@ -1,1 +1,1 @@
-CessProject
+ChessProject
