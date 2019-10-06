@@ -119,17 +119,88 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 	*/
 	private Boolean piecePresent(int x, int y){
 		Component c = chessBoard.findComponentAt(x, y);
-		if(c instanceof JPanel){
+		if(c instanceof JPanel) {
 			return false;
 		}
-		else{
+		else {
 			return true;
 		}
 	}
 	
-	/*
-		This is a method to check if a piece is a Black piece.
-	*/
+	private Boolean checkKingPresent(int newX, int newY){
+
+        System.out.println(((newX/75)+1) + " " + newY/75);
+
+		Component c1 = chessBoard.findComponentAt(((newX+75)), (newY)); //right
+		System.out.println(c1);
+		Component c2 = chessBoard.findComponentAt((newX), ((newY+75))); // below
+		System.out.println(c2);
+		Component c3 = chessBoard.findComponentAt(((newX+75)), ((newY+75))); // bottom right
+		System.out.println(c3);
+		Component c4 = chessBoard.findComponentAt(((newX-75)), (newY)); // left
+		System.out.println(c4);
+		Component c5 = chessBoard.findComponentAt((newX), ((newY-75))); // above
+		System.out.println(c5);
+		Component c6 = chessBoard.findComponentAt(((newX-75)), ((newY-75))); // top left
+		System.out.println(c6);
+		Component c7 = chessBoard.findComponentAt(((newX+75)), ((newY-75))); // top right
+		System.out.println(c7);
+		Component c8 = chessBoard.findComponentAt(((newX-75)), ((newY+75))); // bottom left
+		System.out.println(c8);
+
+		System.out.println("Bug 1");
+
+		if ((c1 instanceof JPanel) || (c2 instanceof JPanel) ||
+                (c3 instanceof JPanel) || (c4 instanceof JPanel) ||
+                (c5 instanceof JPanel) || (c6 instanceof JPanel) ||
+                (c7 instanceof JPanel) || (c8 instanceof JPanel)) {
+            return false;
+		}   
+		else {
+
+			System.out.println("Bug new");
+
+			JLabel awaitingPiece1 = (JLabel)c1;
+			System.out.println((JLabel)c1);
+			JLabel awaitingPiece2 = (JLabel)c2;
+			JLabel awaitingPiece3 = (JLabel)c3;
+			JLabel awaitingPiece4 = (JLabel)c4;
+			JLabel awaitingPiece5 = (JLabel)c5;
+			JLabel awaitingPiece6 = (JLabel)c6;
+			JLabel awaitingPiece7 = (JLabel)c7;
+			JLabel awaitingPiece8 = (JLabel)c8;
+			
+			System.out.println("Bug 2");
+
+			String tmp1 = awaitingPiece1.getIcon().toString();
+			System.out.println(awaitingPiece1.getIcon().toString() +" 1 "+ tmp1);
+			String tmp2 = awaitingPiece2.getIcon().toString();
+			System.out.println(awaitingPiece2.getIcon().toString() +" 2 "+ tmp2);
+			String tmp3 = awaitingPiece3.getIcon().toString();
+			System.out.println(awaitingPiece3.getIcon().toString() +" 3 "+ tmp3);
+			String tmp4 = awaitingPiece4.getIcon().toString();
+			System.out.println(awaitingPiece4.getIcon().toString() +" 4 "+ tmp4);
+			String tmp5 = awaitingPiece5.getIcon().toString();
+			System.out.println(awaitingPiece5.getIcon().toString() +" 5 "+ tmp5);
+			String tmp6 = awaitingPiece6.getIcon().toString();
+			System.out.println(awaitingPiece6.getIcon().toString() +" 6 "+ tmp6);
+			String tmp7 = awaitingPiece7.getIcon().toString();
+			System.out.println(awaitingPiece7.getIcon().toString() +" 7 "+ tmp7);
+			String tmp8 = awaitingPiece8.getIcon().toString();
+			System.out.println(awaitingPiece8.getIcon().toString() +" 8 "+ tmp8);
+
+			System.out.println("Bug 3");
+			
+
+			if (((tmp1.contains("King"))) || ((tmp2.contains("King"))) || ((tmp3.contains("King"))) || ((tmp4.contains("King"))) || ((tmp5.contains("King"))) || ((tmp6.contains("King"))) || ((tmp7.contains("King"))) || ((tmp8.contains("King")))){
+				System.out.println("KING PRESENT Tmp1");
+				return true;
+			} else {
+				return false;
+			}
+		}
+    }
+
 	private Boolean checkWhiteOponent(int newX, int newY){
 		Boolean oponent;
 		Component c1 = chessBoard.findComponentAt(newX, newY);
@@ -144,40 +215,12 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		return oponent;
 	}
 
-	private Boolean checkWhiteOponentKing(int newX, int newY){
-		Boolean valid;
-		Component c1 = chessBoard.findComponentAt((newX+1)/75, (newY+1)/75);
-		JLabel awaitingPiece = (JLabel)c1;
-		String tmp1 = awaitingPiece.getIcon().toString();			
-		if(((tmp1.equals("BlackKing")))){
-			valid = false;
-		}
-		else{
-			valid = true; 
-		}		
-		return valid;
-	}
-
 	private Boolean checkBlackOponent(int newX, int newY){
 		Boolean oponent;
 		Component c1 = chessBoard.findComponentAt(newX, newY);
 		JLabel awaitingPiece = (JLabel)c1;
 		String tmp1 = awaitingPiece.getIcon().toString();			
 		if(((tmp1.contains("White")))){
-			oponent = true;
-		}
-		else{
-			oponent = false; 
-		}		
-		return oponent;
-	}
-
-	private Boolean checkBlackOponentKing(int newX, int newY){
-		Boolean oponent;
-		Component c1 = chessBoard.findComponentAt(newX+75, newY+75);
-		JLabel awaitingPiece = (JLabel)c1;
-		String tmp1 = awaitingPiece.getIcon().toString();			
-		if(((tmp1.equals("WhiteKing")))){
 			oponent = true;
 		}
 		else{
@@ -252,6 +295,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			If a Pawn makes it to the top of the other side, the Pawn can turn into any other piece, for 
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
+		try {
 		if(pieceName.contains("Queen")){
 			Boolean inTheWay = false;
 			int distance =  Math.abs(startX-landingX);
@@ -395,20 +439,20 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			}
 		}
 		else if(pieceName.contains("King")){
-			if(((landingX < 0) || (landingX > 7))||((landingY < 0)||(landingY > 7))){
+			if(checkKingPresent(e.getX(), e.getY())){
+				validMove = false;
+			}
+			else if(((landingX < 0) || (landingX > 7))||((landingY < 0)||(landingY > 7))){
                 validMove = false;          
 			}
-			else if(((xMovement == 1 && yMovement == 1) || ((xMovement == 1) && (yMovement == 0)) || ((xMovement == 0) && yMovement == 1))) {
-				if(checkWhiteOponentKing(e.getX(), e.getY())){
-					validMove = false;
-				}
-				else if(checkBlackOponentKing(e.getX(), e.getY())){
-					validMove = false;
-				}
-				else if(piecePresent(e.getX(), e.getY())) {
+			else if(((xMovement == 1 && yMovement == 1) || ((xMovement == 1) && (yMovement == 0)) || ((xMovement == 0) && yMovement == 1))){
+				if(piecePresent(e.getX(), e.getY())) {
 					if(pieceName.contains("White")) {
 						if(checkWhiteOponent(e.getX(), e.getY())){
 							validMove = true;
+						}
+						else {
+							validMove = false;
 						}
 					}
 					else {
@@ -744,7 +788,6 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		    panels.add(pieces);			
 		}
 		else {
-			try {
 				if(success && pieceName.contains("White")){
 					int location = 56 + (e.getX()/75);
 					if (c instanceof JLabel){
@@ -790,20 +833,20 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 					chessPiece.setVisible(true);									
 				}
 			}
-			catch (NullPointerException offTheBoard) {
-				int location=0;
-					if(startY ==0){
-						location = startX;
-					}
-					else{
-						location  = (startY*8)+startX;
-					}
-					String pieceLocation = pieceName+".png"; 
-					pieces = new JLabel( new ImageIcon(pieceLocation) );
-					panels = (JPanel)chessBoard.getComponent(location);
-					panels.add(pieces);		
-			}
 		} 	
+		catch (NullPointerException offTheBoard) {
+			int location=0;
+				if(startY ==0){
+					location = startX;
+				}
+				else{
+					location  = (startY*8)+startX;
+				}
+				String pieceLocation = pieceName+".png"; 
+				pieces = new JLabel( new ImageIcon(pieceLocation) );
+				panels = (JPanel)chessBoard.getComponent(location);
+				panels.add(pieces);		
+		}
     }
  
     public void mouseClicked(MouseEvent e) {
